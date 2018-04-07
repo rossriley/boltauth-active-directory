@@ -10,14 +10,20 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ActiveDirectory implements HandlerInterface
 {
+    protected $config;
+    protected $container;
+
+    public function __construct($config, $container)
+    {
+        $this->config = $config;
+        $this->container = $container;
+    }
 
     /**
      * Login a client.
      *
      * @param Request $request
      *
-     * @throws DisabledProviderException
-     * @throws InvalidAuthorisationRequestException
      */
     public function login(Request $request)
     {
