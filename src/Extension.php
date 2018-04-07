@@ -3,15 +3,11 @@
 namespace Bolt\Extension\BoltAuth\ActiveDirectory;
 
 use Bolt\Extension\AbstractExtension;
-use Bolt\Extension\BoltAuth\Auth\AccessControl\SessionSubscriber;
-use Bolt\Extension\BoltAuth\Auth\EventListener\ProfileListener;
 use Bolt\Extension\MenuTrait;
 use Bolt\Menu\MenuEntry;
 use Bolt\Translation\Translator as Trans;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Auth management extension for Bolt
@@ -19,7 +15,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  *
  * @author    Ross Riley <riley.ross@gmail.com>
  */
-class Extension extends AbstractExtension
+class Extension extends AbstractExtension implements ServiceProviderInterface
 {
     use MenuTrait;
 
@@ -43,7 +39,6 @@ class Extension extends AbstractExtension
     public function boot(Application $app)
     {
         $this->container = $app;
-        $this->subscribe($app['dispatcher']);
     }
 
     protected function registerMenuEntries()
