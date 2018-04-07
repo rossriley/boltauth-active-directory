@@ -3,9 +3,14 @@
 namespace Bolt\Extension\BoltAuth\ActiveDirectory\Controller;
 
 
+use Bolt\Extension\BoltAuth\ActiveDirectory\Handler\ActiveDirectory;
 use Bolt\Extension\BoltAuth\Auth\Controller\Authentication as BoltAuthAuthentication;
+use Bolt\Extension\BoltAuth\Auth\Exception\DisabledProviderException;
+use Bolt\Extension\BoltAuth\Auth\Exception\InvalidProviderException;
 use Bolt\Extension\BoltAuth\Auth\Form\AuthForms;
 use Silex\Application;
+use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,9 +21,10 @@ class Authentication extends BoltAuthAuthentication
      * the ActiveDirectory plugin. If so, we do the authentication here, otherwise we pass back to the parent
      *
      * @param Application $app
-     * @param Request     $request
+     * @param Request $request
      *
      * @return Response
+     * @throws InvalidProviderException
      */
     public function login(Application $app, Request $request)
     {
@@ -35,7 +41,7 @@ class Authentication extends BoltAuthAuthentication
             $loginDomain = substr($loginEmail ,strpos($loginEmail , '@') +1, 255);
 
             if ($loginDomain === $settings['account_domain']) {
-                return $this->activeDirectoryAuthentication($request);
+                return $this->activeDirectoryAuthentication($app, $request, $passwordForm);
             }
 
             return parent::login($app, $request);
@@ -43,9 +49,36 @@ class Authentication extends BoltAuthAuthentication
 
     }
 
-    protected function activeDirectoryAuthentication($request)
+    /**
+     * @param Application $app
+     * @param Request $request
+     * @param Form $passwordForm
+     * @return mixed
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     * @throws DisabledProviderException
+     * @throws InvalidProviderException
+     */
+    protected function activeDirectoryAuthentication(Application $app, Request $request, Form $passwordForm)
     {
-        dump("we gonna do some active directory"); exit;
-        $this->getAuthOauthProviderManager()->setProvider($app, 'local');
+        $this->getAuthOauthProviderManager()->setProvider($app, 'activedirectory');
+
+        /** @var ActiveDirectory $handler */
+        $handler = $this->getAuthOauthHandler();
+        $handler->setSubmittedForm($passwordForm);
+
+        // Initial login checks
+        $response = $handler->login($request);
+        if ($response instanceof Response) {
+            return $response;
+        }
+
+        // Process and check password, initiate the session is successful
+        $response = $handler->process($request);
+        if ($response instanceof Response) {
+            return $response;
+        }
+
+        $this->getAuthFeedback()->info('Login details are incorrect.');
     }
 }
