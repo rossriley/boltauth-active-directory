@@ -98,7 +98,7 @@ class LDAP
                 throw new RuntimeException('An error has occurred during ldap_bind execution. Please check parameter of LDAP/checkLogin, and make sure that user provided have read permission on LDAP.');
             }
         }
-        if ($filter!=="" && $filter !== null)
+        if ($filter!=='' && $filter !== null)
         {
             $search_filter = '(&(' . $search_attribute . '=' . $user . ')(' . $filter .'))';
         }
