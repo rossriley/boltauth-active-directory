@@ -42,9 +42,15 @@ class Extension extends AbstractExtension implements ServiceProviderInterface
             )
         );
 
-        $app['auth.oauth.provider.activedirectory'] = $app::share(function ($app){
+        $app['auth.oauth.provider.activedirectory'] = $app::share(function (){
            return new ActiveDirectory();
         });
+
+        $app['auth.controller.authentication'] = $app::share(
+            function () {
+                return new Controller\Authentication();
+            }
+        );
 
 
     }
