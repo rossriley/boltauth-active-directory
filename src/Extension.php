@@ -3,6 +3,7 @@
 namespace Bolt\Extension\BoltAuth\ActiveDirectory;
 
 use Bolt\Extension\AbstractExtension;
+use Bolt\Extension\BoltAuth\ActiveDirectory\Provider\ActiveDirectory;
 use Bolt\Extension\MenuTrait;
 use Bolt\Menu\MenuEntry;
 use Bolt\Translation\Translator as Trans;
@@ -28,6 +29,17 @@ class Extension extends AbstractExtension implements ServiceProviderInterface
             function () use ($app) {
                 return new Handler\ActiveDirectory($app['auth.config'], $app);
             }
+        );
+
+        $app['auth.oauth.provider.map'] = $app::share(
+            $app->extend(
+                'auth.oauth.provider.map',
+                function ($map) {
+                    $map['activedirectory'] = ActiveDirectory::class;
+
+                    return $map;
+                }
+            )
         );
 
 
