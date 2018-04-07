@@ -3,6 +3,7 @@
 namespace Bolt\Extension\BoltAuth\ActiveDirectory;
 
 use Bolt\Extension\AbstractExtension;
+use Bolt\Extension\BoltAuth\ActiveDirectory\Handler\ActiveDirectory;
 use Bolt\Extension\BoltAuth\Auth\AccessControl\SessionSubscriber;
 use Bolt\Extension\BoltAuth\Auth\EventListener\ProfileListener;
 use Bolt\Extension\ConfigTrait;
@@ -37,6 +38,8 @@ class Extension extends AbstractExtension implements ServiceProviderInterface, E
                 return new Handler\ActiveDirectory($app['auth.config'], $app);
             }
         );
+
+
     }
 
     /**
