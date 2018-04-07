@@ -62,10 +62,12 @@ class Extension extends AbstractExtension
     /**
      * Returns the service provider.
      *
-     * @return void
+     * @return array
      */
     public function getServiceProviders()
     {
-        // TODO: Implement getServiceProviders() method.
+        return [
+            $this,
+        ];
     }
 }
