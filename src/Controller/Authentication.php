@@ -63,7 +63,7 @@ class Authentication extends BoltAuthAuthentication
         $this->getAuthOauthProviderManager()->setProvider($app, 'activedirectory');
 
         /** @var ActiveDirectory $handler */
-        $handler = $this->getContainer()['auth.oauth.provider.activedirectory']();
+        $handler = $this->getAuthOauthHandler();
         $handler->setSubmittedForm($passwordForm);
 
         // Initial login checks
