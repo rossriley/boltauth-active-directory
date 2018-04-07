@@ -39,6 +39,8 @@ class Extension extends AbstractExtension implements ServiceProviderInterface
     public function boot(Application $app)
     {
         $this->container = $app;
+
+        $app['auth.oauth.provider.manager']->setProvider($app['auth.oauth.handler.activedirectory'], 'activedirectory');
     }
 
     protected function registerMenuEntries()
