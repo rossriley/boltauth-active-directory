@@ -25,6 +25,7 @@ class Authentication extends BoltAuthAuthentication
      *
      * @return Response
      * @throws InvalidProviderException
+     * @throws DisabledProviderException
      */
     public function login(Application $app, Request $request)
     {
@@ -52,19 +53,17 @@ class Authentication extends BoltAuthAuthentication
     /**
      * @param Application $app
      * @param Request $request
-     * @param Form $passwordForm
+     * @param FormInterface $passwordForm
      * @return mixed
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
      * @throws DisabledProviderException
      * @throws InvalidProviderException
      */
-    protected function activeDirectoryAuthentication(Application $app, Request $request, Form $passwordForm)
+    protected function activeDirectoryAuthentication(Application $app, Request $request, FormInterface $passwordForm)
     {
         $this->getAuthOauthProviderManager()->setProvider($app, 'activedirectory');
 
         /** @var ActiveDirectory $handler */
-        $handler = $this->getAuthOauthHandler();
+        $handler = $this->getContainer()['auth.oauth.provider.activedirectory'];
         $handler->setSubmittedForm($passwordForm);
 
         // Initial login checks
