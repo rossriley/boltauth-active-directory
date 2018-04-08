@@ -3,9 +3,9 @@
 namespace Bolt\Extension\BoltAuth\ActiveDirectory\Handler;
 
 
+use Bolt\Extension\BoltAuth\ActiveDirectory\LDAP;
 use Bolt\Extension\BoltAuth\Auth\Oauth2\Handler\HandlerInterface;
 use Bolt\Extension\BoltAuth\Auth\Oauth2\Handler\Local;
-use LDAP;
 use RuntimeException;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
