@@ -53,7 +53,7 @@ class ActiveDirectory extends Local implements HandlerInterface
         $adminPass = $serverConfig['password'];
         $dcs = $serverConfig['dc'];
         $bindDN = sprintf('uid=%s,ou=%s,o=%s,%s', $adminUser, $ou, $org, 'dc='. implode(',dc=', $dcs));
-        $baseDN = sprintf('ou=%s,o=%s,%s', $adminUser, $ou, $org, 'dc='. implode(',dc=', $dcs));
+        $baseDN = sprintf('ou=%s,o=%s,%s', $ou, $org, 'dc='. implode(',dc=', $dcs));
 
 
         $email = $this->submittedForm->get('email')->getData();
