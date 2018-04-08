@@ -27,9 +27,6 @@ class ActiveDirectory extends Local implements HandlerInterface
      */
     public function login(Request $request)
     {
-        if (parent::login($request)) {
-            return $this->session->popRedirect()->getResponse();
-        }
 
         if ($this->submittedForm === null) {
             throw new RuntimeException(sprintf('%s requires a %s object to be set.', __METHOD__, Form::class));
