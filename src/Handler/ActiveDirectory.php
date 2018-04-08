@@ -53,13 +53,14 @@ class ActiveDirectory extends Local implements HandlerInterface
         $adminPass = $serverConfig['password'];
         $dcs = $serverConfig['dc'];
         $bindDN = sprintf('uid=%s,ou=%s,o=%s,%s', $adminUser, $ou, $org, 'dc='. implode(',dc=', $dcs));
+        $baseDN = sprintf('ou=%s,o=%s,%s', $adminUser, $ou, $org, 'dc='. implode(',dc=', $dcs));
 
 
         $email = $this->submittedForm->get('email')->getData();
         $username = strstr($email, '@', true);
         $password = $this->submittedForm->get('password')->getData();
         $ldap = new LDAP($domain, $port, [LDAP_OPT_PROTOCOL_VERSION => 3]);
-        $authUser = $ldap->checkLogin($username, $password, 'uid', 'objectClass=inetOrgPerson', $domain, $bindDN, $adminPass);
+        $authUser = $ldap->checkLogin($username, $password, 'uid', 'objectClass=inetOrgPerson', $baseDN, $bindDN, $adminPass);
 
         dump($authUser); exit;
     }
