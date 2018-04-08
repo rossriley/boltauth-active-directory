@@ -59,7 +59,7 @@ class ActiveDirectory extends Local implements HandlerInterface
         $username = strstr($email, '@', true);
         $password = $this->submittedForm->get('password')->getData();
         $ldap = new LDAP($domain, $port);
-        $authUser = $ldap->checkLogin($username, $password, null, null, $domain, $bindDN, $adminPass);
+        $authUser = $ldap->checkLogin($username, $password, 'uid', null, $domain, $bindDN, $adminPass);
 
         dump($authUser); exit;
     }
