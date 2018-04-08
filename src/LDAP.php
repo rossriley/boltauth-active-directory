@@ -1,5 +1,10 @@
 <?php
 
+namespace Bolt\Extension\BoltAuth\ActiveDirectory;
+
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  * Simple LDAP object to interact with LDAP
  *
@@ -55,6 +60,8 @@ class LDAP
      * @return bool
      * TRUE if the user is identified and can access to the LDAP server
      * and FALSE if it isn't
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      * @throws Exception
      */
     public function checkLogin($user, $password = null, $search_attribute, $filter = null, $base_dn,$bind_dn, $bind_pass) {
@@ -138,6 +145,8 @@ class LDAP
      * @param $user
      * @return array An array with the user's mail and complete name.
      * An array with the user's mail and complete name.
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      * @throws Exception
      */
     public function getUserData($base_dn, $filter, $bind_dn, $bind_pass, $search_attribute, $user)
