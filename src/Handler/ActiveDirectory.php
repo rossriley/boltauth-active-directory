@@ -7,22 +7,21 @@ use Bolt\Extension\BoltAuth\Auth\Oauth2\Handler\HandlerInterface;
 use Bolt\Extension\BoltAuth\Auth\Oauth2\Handler\Local;
 use LDAP;
 use RuntimeException;
+use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class ActiveDirectory extends Local implements HandlerInterface
 {
 
-    /** @var Form */
+    /** @var FormInterface */
     protected $submittedForm;
 
     /**
      * Login a client.
      *
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @throws \InvalidArgumentException
-     * @throws RuntimeException
-     * @throws \Bolt\Extension\BoltAuth\Auth\Exception\DisabledProviderException
+     * @return void
      * @throws \Exception
      */
     public function login(Request $request)
@@ -84,5 +83,13 @@ class ActiveDirectory extends Local implements HandlerInterface
     public function logout(Request $request)
     {
         // TODO: Implement logout() method.
+    }
+
+    /**
+     * @param Form $submittedForm
+     */
+    public function setSubmittedForm(Form $submittedForm)
+    {
+        $this->submittedForm = $submittedForm;
     }
 }
