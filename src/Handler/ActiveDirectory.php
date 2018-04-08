@@ -13,7 +13,7 @@ class ActiveDirectory extends Local implements HandlerInterface
 {
 
     /** @var Form */
-    private $submittedForm;
+    protected $submittedForm;
 
     /**
      * Login a client.

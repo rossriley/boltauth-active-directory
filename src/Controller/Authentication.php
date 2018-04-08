@@ -55,6 +55,7 @@ class Authentication extends BoltAuthAuthentication
      * @param Request $request
      * @param FormInterface $passwordForm
      * @return mixed
+     * @throws \Exception
      * @throws DisabledProviderException
      * @throws InvalidProviderException
      */
