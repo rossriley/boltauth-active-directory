@@ -20,13 +20,10 @@ class LDAP
      *
      * @param string @hostname
      * Either a hostname or, with OpenLDAP 2.x.x and later, a full LDAP URI
-     * @param int @port
-     * An optional int to specify ldap server port
-     *
-     * Initiate LDAP connection by creating an associated resource
-     * @throws \InvalidArgumentException
+     * @param int $port
+     * @param array $options
      */
-    public function __construct($hostname, $port = 389)
+    public function __construct($hostname, $port = 389, $options = [])
     {
         if (!is_string($hostname))
         {
@@ -39,6 +36,10 @@ class LDAP
         }
 
         $this->ldap_server = ldap_connect($hostname, $port);
+
+        foreach ($options as $option => $value) {
+            ldap_set_option($this->ldap_server, $option, $value);
+        }
     }
 
     /**
