@@ -62,6 +62,10 @@ class ActiveDirectory extends Local implements HandlerInterface
         $ldap = new LDAP($domain, $port, [LDAP_OPT_PROTOCOL_VERSION => 3]);
         $authUser = $ldap->checkLogin($username, $password, 'uid', 'objectClass=inetOrgPerson', $baseDN, $bindDN, $adminPass);
 
+        if ($authUser) {
+            $authUser = $ldap->getUserData($baseDN, 'objectClass=inetOrgPerson', $bindDN, $adminPass, 'uid', $username);
+        }
+
         dump($authUser); exit;
     }
 
